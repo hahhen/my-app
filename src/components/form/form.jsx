@@ -24,31 +24,30 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useMaskito } from "@maskito/react";
+import ReactInputMask from "react-input-mask";
 
 const formSchema = z.object({
   username: z
-    .string({
-      required_error: "Preencha todos os campos",
-    })
+    .string({ required_error: "Preencha todos os campos" })
     .min(2, {
       message: "O nome do produto precisa ter pelo menos 2 caracteres.",
+    })
+    .refine((val) => /^[^\d]*$/.test(val), {
+      message: "O nome do produto não pode conter números.",
     }),
   preco: z.coerce.number({
     required_error: "Preencha todos os campos",
     message: "Digite um número",
   }),
   cor: z
-    .string({
-      required_error: "Preencha todos os campos",
-    })
+    .string({ required_error: "Preencha todos os campos" })
     .min(2, {
       message: "A cor do produto precisa ter pelo menos 2 caracteres",
-    }),
-  tamanho: z
-    .string({
-      required_error: "Preencha todos os campos",
     })
-    .max(2),
+    .refine((val) => /^[^\d]*$/.test(val), {
+      message: "O nome do produto não pode conter números.",
+    }),
+  tamanho: z.string({ required_error: "Preencha todos os campos" }).max(2),
 });
 
 export function zodValidation(values) {
